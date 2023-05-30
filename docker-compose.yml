@@ -1,0 +1,20 @@
+version: '3.5'
+services:
+  atuin:
+    restart: always
+    image: ghcr.io/ellie/atuin:main
+    command: server start
+    ports:
+      - 8888:8888
+    environment:
+      ATUIN_HOST: "0.0.0.0"
+      ATUIN_OPEN_REGISTRATION: "true"
+      ATUIN_DB_URI: postgres://${ATUIN_DB_USERNAME}:${ATUIN_DB_PASSWORD}@db/atuin
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${ATUIN_DB_PASSWORD}
+      POSTGRES_USER: ${ATUIN_DB_USERNAME}
+    ports:
+      - 5432:5432
